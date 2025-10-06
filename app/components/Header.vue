@@ -31,12 +31,12 @@
                       transform: 'var(--avatar-image-transform)',
                     }"
                   >
-                    <img
+                    <NuxtImg
                       src="/images/avatar.jpg"
                       alt="Avatar"
+                      width="64"
+                      height="64"
                       class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-10 w-10 sm:h-16 sm:w-16"
-                      width="512"
-                      height="512"
                     />
                   </NuxtLink>
                 </div>

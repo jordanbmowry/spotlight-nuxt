@@ -23,4 +23,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  image: {
+    // Use default provider for static images
+  },
 });

@@ -13,16 +13,28 @@
         terms.
       </p>
       <div class="mt-6 flex gap-6">
-        <!-- Social links would go here -->
-        <div class="text-sm text-zinc-500">Social links placeholder</div>
+        <SocialLink href="#" :ariaLabel="'Follow on X'" :icon="XIcon" />
+        <SocialLink
+          href="#"
+          :ariaLabel="'Follow on Instagram'"
+          :icon="InstagramIcon"
+        />
+        <SocialLink
+          href="#"
+          :ariaLabel="'Follow on GitHub'"
+          :icon="GitHubIcon"
+        />
+        <SocialLink
+          href="#"
+          :ariaLabel="'Follow on LinkedIn'"
+          :icon="LinkedInIcon"
+        />
       </div>
     </div>
   </Container>
 
-  <!-- Placeholder for photos section -->
-  <div class="mt-16 sm:mt-20">
-    <div class="text-center text-zinc-500">Photos section placeholder</div>
-  </div>
+  <!-- Photos section -->
+  <Photos />
 
   <!-- Placeholder for articles and newsletter -->
   <Container class="mt-24 md:mt-28">
@@ -42,4 +54,10 @@
 
 <script setup lang="ts">
 import Container from '~/components/Container.vue';
+import Photos from '~/components/Photos.vue';
+import SocialLink from '~/components/SocialLink.vue';
+import XIcon from '~/components/icons/XIcon.vue';
+import InstagramIcon from '~/components/icons/InstagramIcon.vue';
+import GitHubIcon from '~/components/icons/GitHubIcon.vue';
+import LinkedInIcon from '~/components/icons/LinkedInIcon.vue';
 </script>
