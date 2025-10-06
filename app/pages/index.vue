@@ -42,7 +42,11 @@
       class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2"
     >
       <div class="flex flex-col gap-16">
-        <div class="text-zinc-500">Articles placeholder</div>
+        <Article
+          v-for="article in articles"
+          :key="article.slug"
+          :article="article"
+        />
       </div>
       <div class="space-y-10 lg:pl-16 xl:pl-24">
         <div class="text-zinc-500">Newsletter placeholder</div>
@@ -56,8 +60,13 @@
 import Container from '~/components/Container.vue';
 import Photos from '~/components/Photos.vue';
 import SocialLink from '~/components/SocialLink.vue';
+import Article from '~/components/Article.vue';
 import XIcon from '~/components/icons/XIcon.vue';
 import InstagramIcon from '~/components/icons/InstagramIcon.vue';
 import GitHubIcon from '~/components/icons/GitHubIcon.vue';
 import LinkedInIcon from '~/components/icons/LinkedInIcon.vue';
+
+// Get articles data
+const { getLatestArticles } = useArticles();
+const articles = getLatestArticles(4);
 </script>
