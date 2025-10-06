@@ -1,35 +1,45 @@
 <template>
-  <div class="relative px-4 sm:px-8 lg:px-12">
-    <div class="mx-auto max-w-2xl lg:max-w-5xl">
-      <div class="max-w-2xl">
-        <h1 class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-          Software designer, founder, and amateur astronaut.
-        </h1>
-        <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-          I'm Spencer, a software designer and entrepreneur based in New York
-          City. I'm the founder and CEO of Planetaria, where we develop
-          technologies that empower regular people to explore space on their
-          own terms.
-        </p>
-        <div class="mt-6 flex gap-6">
-          <NuxtLink class="group -m-1 p-1" aria-label="Follow on X" href="#">
-            <XIcon class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-          </NuxtLink>
-          <NuxtLink class="group -m-1 p-1" aria-label="Follow on Instagram" href="#">
-            <InstagramIcon class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-          </NuxtLink>
-          <NuxtLink class="group -m-1 p-1" aria-label="Follow on GitHub" href="#">
-            <GitHubIcon class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-          </NuxtLink>
-          <NuxtLink class="group -m-1 p-1" aria-label="Follow on LinkedIn" href="#">
-            <LinkedInIcon class="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-          </NuxtLink>
-        </div>
+  <Container class="mt-12 sm:mt-9">
+    <div class="max-w-2xl">
+      <h1
+        class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100 leading-9 sm:leading-none"
+      >
+        Software designer, founder, and amateur astronaut.
+      </h1>
+      <p class="mt-6 text-base text-zinc-600 dark:text-zinc-400 leading-7">
+        I'm Spencer, a software designer and entrepreneur based in New York
+        City. I'm the founder and CEO of Planetaria, where we develop
+        technologies that empower regular people to explore space on their own
+        terms.
+      </p>
+      <div class="mt-6 flex gap-6">
+        <!-- Social links would go here -->
+        <div class="text-sm text-zinc-500">Social links placeholder</div>
       </div>
     </div>
+  </Container>
+
+  <!-- Placeholder for photos section -->
+  <div class="mt-16 sm:mt-20">
+    <div class="text-center text-zinc-500">Photos section placeholder</div>
   </div>
+
+  <!-- Placeholder for articles and newsletter -->
+  <Container class="mt-24 md:mt-28">
+    <div
+      class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2"
+    >
+      <div class="flex flex-col gap-16">
+        <div class="text-zinc-500">Articles placeholder</div>
+      </div>
+      <div class="space-y-10 lg:pl-16 xl:pl-24">
+        <div class="text-zinc-500">Newsletter placeholder</div>
+        <div class="text-zinc-500">Resume placeholder</div>
+      </div>
+    </div>
+  </Container>
 </template>
 
 <script setup lang="ts">
-import { XIcon, InstagramIcon, GitHubIcon, LinkedInIcon } from '~/components/SocialIcons'
+import Container from '~/components/Container.vue';
 </script>

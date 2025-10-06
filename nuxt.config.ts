@@ -15,8 +15,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: {
-        lang: 'en',
         class: 'h-full antialiased',
+        lang: 'en',
       },
       bodyAttrs: {
         class: 'flex h-full bg-zinc-50 dark:bg-black',

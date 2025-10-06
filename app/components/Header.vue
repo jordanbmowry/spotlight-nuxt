@@ -1,214 +1,319 @@
 <template>
   <div>
-    <!-- Main Header -->
     <header
-      ref="headerRef"
       class="pointer-events-none relative z-50 flex flex-none flex-col"
-      :style="{
-        height: 'var(--header-height)',
-        marginBottom: 'var(--header-mb)',
-      }"
+      :style="headerStyle"
     >
-      <!-- Home page avatar section -->
-      <template v-if="isHomePage">
-        <div ref="avatarRef" class="order-last mt-[calc(4rem-0.75rem)]" />
-        <Container
-          class="top-0 order-last -mb-3 pt-3"
-          :style="{
-            position: 'var(--header-position)',
-          }"
-        >
-          <div
-            class="top-[var(--avatar-top,0.75rem)] w-full"
-            :style="{
-              position: 'var(--header-inner-position)',
-            }"
-          >
-            <div class="relative">
-              <AvatarContainer
-                class="absolute top-3 left-0 origin-left transition-opacity"
-                :style="{
-                  opacity: 'var(--avatar-border-opacity, 0)',
-                  transform: 'var(--avatar-border-transform)',
-                }"
-              />
-              <Avatar
-                :large="true"
-                class="block h-16 w-16 origin-left"
-                :style="{ transform: 'var(--avatar-image-transform)' }"
-              />
-            </div>
-          </div>
-        </Container>
-      </template>
-
-      <!-- Navigation section -->
-      <div
-        ref="navigationRef"
-        class="top-0 z-10 h-16 pt-6"
-        :style="{
-          position: 'var(--header-position)',
-        }"
-      >
-        <Container
-          class="top-[var(--header-top,1.5rem)] w-full"
-          :style="{
-            position: 'var(--header-inner-position)',
-          }"
-        >
-          <div class="relative flex gap-4">
-            <div class="flex flex-1">
-              <AvatarContainer v-if="!isHomePage">
-                <Avatar />
-              </AvatarContainer>
-            </div>
-            <div class="flex flex-1 justify-end md:justify-center">
-              <MobileNavigation class="pointer-events-auto md:hidden" />
-              <DesktopNavigation class="pointer-events-auto hidden md:block" />
-            </div>
-            <div class="flex justify-end md:flex-1">
-              <div class="pointer-events-auto">
-                <ThemeToggle />
+      <!-- Avatar section -->
+      <div class="sm:px-8 top-0 order-last -mb-3 pt-3" :style="navStyle">
+        <div class="mx-auto w-full max-w-7xl lg:px-8">
+          <div class="relative px-4 sm:px-8 lg:px-12">
+            <div class="mx-auto max-w-2xl lg:max-w-5xl">
+              <div
+                class="top-[var(--avatar-top,theme(spacing.3))] w-full"
+                :style="innerStyle"
+              >
+                <div class="relative">
+                  <!-- Avatar border (transforms based on scroll) -->
+                  <div
+                    class="absolute top-3 left-0 origin-left transition-opacity h-10 w-10 rounded-full bg-white/90 p-0.5 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:ring-white/10"
+                    :style="{
+                      opacity: 'var(--avatar-border-opacity, 0)',
+                      transform: 'var(--avatar-border-transform)',
+                    }"
+                  ></div>
+                  <!-- Avatar image -->
+                  <NuxtLink
+                    href="/"
+                    aria-label="Home"
+                    class="block h-10 w-10 sm:h-16 sm:w-16 origin-left pointer-events-auto"
+                    :style="{
+                      transform: 'var(--avatar-image-transform)',
+                    }"
+                  >
+                    <img
+                      src="/images/avatar.jpg"
+                      alt="Avatar"
+                      class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-10 w-10 sm:h-16 sm:w-16"
+                      width="512"
+                      height="512"
+                    />
+                  </NuxtLink>
+                </div>
               </div>
             </div>
           </div>
-        </Container>
+        </div>
+      </div>
+
+      <!-- Navigation section -->
+      <div class="top-0 z-10 h-16 pt-6" :style="navStyle">
+        <div
+          class="sm:px-8 top-[var(--header-top,theme(spacing.6))] w-full"
+          :style="innerStyle"
+        >
+          <div class="mx-auto w-full max-w-7xl lg:px-8">
+            <div class="relative px-4 sm:px-8 lg:px-12">
+              <div class="mx-auto max-w-2xl lg:max-w-5xl">
+                <div class="relative flex gap-4">
+                  <!-- Empty left column -->
+                  <div class="flex flex-1"></div>
+
+                  <!-- Center column - Navigation -->
+                  <div
+                    class="flex flex-1 justify-end md:justify-center items-center"
+                  >
+                    <!-- Mobile Navigation -->
+                    <div class="pointer-events-auto md:hidden">
+                      <button
+                        @click="showMobileMenu = !showMobileMenu"
+                        class="group flex items-center rounded-full bg-white/90 px-4 py-2 text-sm font-medium text-zinc-800 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10 dark:hover:ring-white/20"
+                        type="button"
+                      >
+                        Menu
+                        <svg
+                          viewBox="0 0 8 6"
+                          aria-hidden="true"
+                          class="ml-3 h-auto w-2 stroke-zinc-500 group-hover:stroke-zinc-700 dark:group-hover:stroke-zinc-400"
+                        >
+                          <path
+                            d="M1.75 1.75 4 4.25l2.25-2.5"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                    <!-- Desktop Navigation -->
+                    <nav class="pointer-events-auto hidden md:block">
+                      <ul
+                        class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10"
+                      >
+                        <li>
+                          <NuxtLink
+                            href="/about"
+                            class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400"
+                            >About</NuxtLink
+                          >
+                        </li>
+                        <li>
+                          <NuxtLink
+                            href="/articles"
+                            class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400"
+                            >Articles</NuxtLink
+                          >
+                        </li>
+                        <li>
+                          <NuxtLink
+                            href="/projects"
+                            class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400"
+                            >Projects</NuxtLink
+                          >
+                        </li>
+                        <li>
+                          <NuxtLink
+                            href="/speaking"
+                            class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400"
+                            >Speaking</NuxtLink
+                          >
+                        </li>
+                        <li>
+                          <NuxtLink
+                            href="/uses"
+                            class="relative block px-3 py-2 transition hover:text-teal-500 dark:hover:text-teal-400"
+                            >Uses</NuxtLink
+                          >
+                        </li>
+                      </ul>
+                    </nav>
+                  </div>
+
+                  <!-- Right column - Theme toggle -->
+                  <div class="flex justify-end md:flex-1 items-center">
+                    <div class="pointer-events-auto">
+                      <button
+                        @click="toggleColorMode"
+                        type="button"
+                        :aria-label="
+                          $colorMode.value === 'dark'
+                            ? 'Switch to light theme'
+                            : 'Switch to dark theme'
+                        "
+                        class="group rounded-full bg-white/90 px-3 py-2 shadow-lg ring-1 shadow-zinc-800/5 ring-zinc-900/5 backdrop-blur-sm transition dark:bg-zinc-800/90 dark:ring-white/10 dark:hover:ring-white/20"
+                      >
+                        <svg
+                          viewBox="0 0 24 24"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                          class="h-6 w-6 fill-zinc-100 stroke-zinc-500 transition group-hover:fill-zinc-200 group-hover:stroke-zinc-700 dark:hidden [@media(prefers-color-scheme:dark)]:fill-teal-50 [@media(prefers-color-scheme:dark)]:stroke-teal-500 [@media(prefers-color-scheme:dark)]:group-hover:fill-teal-50 [@media(prefers-color-scheme:dark)]:group-hover:stroke-teal-600"
+                        >
+                          <path
+                            d="M8 12.25A4.25 4.25 0 0 1 12.25 8v0a4.25 4.25 0 0 1 4.25 4.25v0a4.25 4.25 0 0 1-4.25 4.25v0A4.25 4.25 0 0 1 8 12.25v0Z"
+                          ></path>
+                          <path
+                            d="M12.25 3v1.5M21.5 12.25H20M18.791 18.791l-1.06-1.06M18.791 5.709l-1.06 1.06M12.25 20v1.5M4.5 12.25H3M6.77 6.77 5.709 5.709M6.77 17.73l-1.061 1.061"
+                            fill="none"
+                          ></path>
+                        </svg>
+                        <svg
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                          class="hidden h-6 w-6 fill-zinc-700 stroke-zinc-500 transition not-[@media_(prefers-color-scheme:dark)]:fill-teal-400/10 not-[@media_(prefers-color-scheme:dark)]:stroke-teal-500 dark:block [@media(prefers-color-scheme:dark)]:group-hover:stroke-zinc-400"
+                        >
+                          <path
+                            d="M17.25 16.22a6.937 6.937 0 0 1-9.47-9.47 7.451 7.451 0 1 0 9.47 9.47ZM12.75 7C17 7 17 2.75 17 2.75S17 7 21.25 7C17 7 17 11.25 17 11.25S17 7 12.75 7Z"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          ></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- Content offset for home page -->
+    <!-- Mobile Menu Backdrop -->
     <div
-      v-if="isHomePage"
-      class="flex-none"
-      :style="{ height: 'var(--content-offset)' }"
-    />
+      v-if="showMobileMenu"
+      @click="showMobileMenu = false"
+      class="fixed inset-0 z-50 bg-zinc-800/40 backdrop-blur duration-150 dark:bg-black/80"
+    ></div>
+
+    <!-- Mobile Menu Panel -->
+    <div
+      v-if="showMobileMenu"
+      class="fixed inset-x-4 top-8 z-50 origin-top rounded-3xl bg-white p-8 ring-1 ring-zinc-900/5 duration-150 dark:bg-zinc-900 dark:ring-zinc-800"
+    >
+      <div class="flex flex-row-reverse items-center justify-between">
+        <button
+          @click="showMobileMenu = false"
+          aria-label="Close menu"
+          class="-m-1 p-1"
+        >
+          <svg
+            class="h-6 w-6 text-zinc-500 dark:text-zinc-400"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="m17.25 6.75-10.5 10.5M6.75 6.75l10.5 10.5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+        <h2 class="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+          Navigation
+        </h2>
+      </div>
+      <nav class="mt-6">
+        <ul
+          class="-my-2 divide-y divide-zinc-100 text-base text-zinc-800 dark:divide-zinc-100/5 dark:text-zinc-300"
+        >
+          <li>
+            <NuxtLink
+              @click="showMobileMenu = false"
+              href="/about"
+              class="block py-2"
+              >About</NuxtLink
+            >
+          </li>
+          <li>
+            <NuxtLink
+              @click="showMobileMenu = false"
+              href="/articles"
+              class="block py-2"
+              >Articles</NuxtLink
+            >
+          </li>
+          <li>
+            <NuxtLink
+              @click="showMobileMenu = false"
+              href="/projects"
+              class="block py-2"
+              >Projects</NuxtLink
+            >
+          </li>
+          <li>
+            <NuxtLink
+              @click="showMobileMenu = false"
+              href="/speaking"
+              class="block py-2"
+              >Speaking</NuxtLink
+            >
+          </li>
+          <li>
+            <NuxtLink
+              @click="showMobileMenu = false"
+              href="/uses"
+              class="block py-2"
+              >Uses</NuxtLink
+            >
+          </li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { useRoute } from 'vue-router';
+const showMobileMenu = ref(false);
+const { $colorMode } = useNuxtApp();
 
-// Components
-import Container from './Container.vue';
-import MobileNavigation from './MobileNavigation.vue';
-import DesktopNavigation from './DesktopNavigation.vue';
-import ThemeToggle from './ThemeToggle.vue';
-import Avatar from './Avatar.vue';
-import AvatarContainer from './AvatarContainer.vue';
+// Define computed styles for TypeScript compatibility
+const headerStyle = computed(() => ({
+  height: 'var(--header-height)',
+  marginBottom: 'var(--header-mb)',
+}));
 
-const route = useRoute();
-const headerRef = ref<HTMLElement>();
-const avatarRef = ref<HTMLElement>();
-const navigationRef = ref<HTMLElement>();
-const isInitial = ref(true);
+const navStyle = computed(() => ({
+  position: 'var(--header-position)' as any,
+}));
 
-const isHomePage = computed(() => route.path === '/');
+const innerStyle = computed(() => ({
+  position: 'var(--header-inner-position)' as any,
+}));
 
-function clamp(number: number, a: number, b: number) {
-  const min = Math.min(a, b);
-  const max = Math.max(a, b);
-  return Math.min(Math.max(number, min), max);
-}
+// Toggle color mode function
+const toggleColorMode = () => {
+  $colorMode.preference = $colorMode.value === 'dark' ? 'light' : 'dark';
+};
 
-function setProperty(property: string, value: string) {
-  document.documentElement.style.setProperty(property, value);
-}
-
-function removeProperty(property: string) {
-  document.documentElement.style.removeProperty(property);
-}
-
-function updateHeaderStyles() {
-  if (!headerRef.value) {
-    return;
-  }
-
-  const { top, height } = headerRef.value.getBoundingClientRect();
-  const scrollY = clamp(
-    window.scrollY,
-    0,
-    document.body.scrollHeight - window.innerHeight
-  );
-
-  const downDelay = avatarRef.value?.offsetTop ?? 0;
-  const upDelay = 64;
-
-  if (isInitial.value) {
-    setProperty('--header-position', 'sticky');
-  }
-
-  setProperty('--content-offset', `${downDelay}px`);
-
-  if (isInitial.value || scrollY < downDelay) {
-    setProperty('--header-height', `${downDelay + height}px`);
-    setProperty('--header-mb', `${-downDelay}px`);
-  } else if (top + height < -upDelay) {
-    const offset = Math.max(height, scrollY - upDelay);
-    setProperty('--header-height', `${offset}px`);
-    setProperty('--header-mb', `${height - offset}px`);
-  } else if (top === 0) {
-    setProperty('--header-height', `${scrollY + height}px`);
-    setProperty('--header-mb', `${-scrollY}px`);
-  }
-
-  if (top === 0 && scrollY > 0 && scrollY >= downDelay) {
-    setProperty('--header-inner-position', 'fixed');
-    removeProperty('--header-top');
-    removeProperty('--avatar-top');
-  } else {
-    removeProperty('--header-inner-position');
-    setProperty('--header-top', '0px');
-    setProperty('--avatar-top', '0px');
-  }
-}
-
-function updateAvatarStyles() {
-  if (!isHomePage.value) {
-    return;
-  }
-
-  const fromScale = 1;
-  const toScale = 36 / 64;
-  const fromX = 0;
-  const toX = 2 / 16;
-
-  const downDelay = avatarRef.value?.offsetTop ?? 0;
-  const scrollY = downDelay - window.scrollY;
-
-  let scale = (scrollY * (fromScale - toScale)) / downDelay + toScale;
-  scale = clamp(scale, fromScale, toScale);
-
-  let x = (scrollY * (fromX - toX)) / downDelay + toX;
-  x = clamp(x, fromX, toX);
-
-  setProperty(
-    '--avatar-image-transform',
-    `translate3d(${x}rem, 0, 0) scale(${scale})`
-  );
-
-  const borderScale = 1 / (toScale / scale);
-  const borderX = (-toX + x) * borderScale;
-  const borderTransform = `translate3d(${borderX}rem, 0, 0) scale(${borderScale})`;
-
-  setProperty('--avatar-border-transform', borderTransform);
-  setProperty('--avatar-border-opacity', scale === toScale ? '1' : '0');
-}
-
-function updateStyles() {
-  updateHeaderStyles();
-  updateAvatarStyles();
-  isInitial.value = false;
-}
-
+// Initialize CSS variables
 onMounted(() => {
-  updateStyles();
-  window.addEventListener('scroll', updateStyles, { passive: true });
-  window.addEventListener('resize', updateStyles);
-});
+  document.documentElement.style.setProperty('--header-position', 'relative');
+  document.documentElement.style.setProperty('--header-height', 'auto');
+  document.documentElement.style.setProperty('--header-mb', '0px');
+  document.documentElement.style.setProperty('--header-top', '0px');
+  document.documentElement.style.setProperty(
+    '--header-inner-position',
+    'relative'
+  );
+  document.documentElement.style.setProperty('--avatar-top', '12px'); // theme(spacing.3)
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateStyles);
-  window.removeEventListener('resize', updateStyles);
+  // Avatar transform variables (these would be updated by scroll handlers)
+  document.documentElement.style.setProperty('--avatar-border-opacity', '0');
+  document.documentElement.style.setProperty(
+    '--avatar-border-transform',
+    'scale(1)'
+  );
+  document.documentElement.style.setProperty(
+    '--avatar-image-transform',
+    'scale(1)'
+  );
 });
 </script>
