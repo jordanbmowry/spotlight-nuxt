@@ -1,13 +1,9 @@
 <template>
-  <div :class="['prose dark:prose-invert', className]">
+  <div class="prose dark:prose-invert">
     <slot />
   </div>
 </template>
 
 <script setup lang="ts">
-interface ProseProps {
-  className?: string;
-}
-
-defineProps<ProseProps>();
+// Simple prose wrapper component
 </script>

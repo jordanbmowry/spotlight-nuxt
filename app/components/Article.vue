@@ -17,6 +17,7 @@ import CardTitle from './CardTitle.vue';
 import CardEyebrow from './CardEyebrow.vue';
 import CardDescription from './CardDescription.vue';
 import CardCta from './CardCta.vue';
+import { formatDate } from '~/lib/formatDate';
 
 interface Article {
   slug: string;
@@ -31,14 +32,4 @@ interface Props {
 }
 
 defineProps<Props>();
-
-// Simple date formatting function
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-};
 </script>

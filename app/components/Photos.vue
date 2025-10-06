@@ -10,11 +10,13 @@
         ]"
         style="aspect-ratio: 9/10"
       >
-        <img
+        <NuxtImg
           :src="image.src"
           :alt="image.alt"
           class="absolute inset-0 h-full w-full object-cover"
           loading="lazy"
+          @error="onImageError"
+          sizes="xs:160px sm:160px md:160px lg:160px xl:160px"
         />
       </div>
     </div>
@@ -37,4 +39,9 @@ const images = [
   { src: '/images/photos/image-4.jpg', alt: 'Photo 4' },
   { src: '/images/photos/image-5.jpg', alt: 'Photo 5' },
 ];
+
+const onImageError = (error: string | Event) => {
+  // Handle NuxtImg error - just log it for now
+  console.warn('Image failed to load:', error);
+};
 </script>

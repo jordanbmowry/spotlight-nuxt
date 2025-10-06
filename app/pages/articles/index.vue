@@ -17,8 +17,7 @@
         </div>
         <div v-else-if="!articles || articles.length === 0" class="text-center">
           <p class="text-zinc-600 dark:text-zinc-400">
-            No articles found. (Debug: articles = {{ articles }}, length =
-            {{ articles?.length }})
+            No articles found.
           </p>
         </div>
         <ArticleListItem
@@ -53,17 +52,13 @@ const {
   error,
 } = await useAsyncData('articles', async () => {
   try {
-    console.log('Querying articles collection...');
-
     // Query the articles collection directly
     const result = await queryCollection('articles')
       .order('date', 'DESC')
       .all();
-    console.log('Articles query result:', result);
 
     return result || [];
   } catch (err) {
-    console.error('Error querying articles collection:', err);
     throw err;
   }
 });

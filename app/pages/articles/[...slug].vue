@@ -14,7 +14,23 @@
           />
         </button>
 
-        <article v-if="article">
+        <div v-if="pending" class="text-center py-8">
+          <p class="text-zinc-600 dark:text-zinc-400">Loading article...</p>
+        </div>
+
+        <div v-else-if="error" class="text-center py-8">
+          <p class="text-zinc-600 dark:text-zinc-400">
+            Error loading article: {{ error }}
+          </p>
+          <button
+            @click="refresh()"
+            class="mt-4 text-sm text-teal-500 hover:text-teal-600 dark:text-teal-400 dark:hover:text-teal-300"
+          >
+            Try again
+          </button>
+        </div>
+
+        <article v-else-if="article">
           <header class="flex flex-col">
             <h1
               class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100"
@@ -22,22 +38,35 @@
               {{ article.title }}
             </h1>
             <time
-              :dateTime="(article as any).date"
+              :dateTime="article.meta?.date"
               class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
             >
               <span
                 class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"
               />
-              <span class="ml-3">{{ formatDate((article as any).date) }}</span>
+              <span class="ml-3">{{
+                formatDate(article.meta?.date as string)
+              }}</span>
             </time>
           </header>
-          <Prose class="mt-8">
+          <Prose class="mt-8" data-mdx-content>
             <ContentRenderer :value="article" />
           </Prose>
         </article>
 
-        <div v-else class="text-center">
-          <p class="text-zinc-600 dark:text-zinc-400">Article not found.</p>
+        <div v-else class="text-center py-8">
+          <h1 class="text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+            Article not found
+          </h1>
+          <p class="mt-4 text-zinc-600 dark:text-zinc-400">
+            The article you're looking for doesn't exist.
+          </p>
+          <NuxtLink
+            to="/articles"
+            class="mt-4 inline-block text-sm text-teal-500 hover:text-teal-600 dark:text-teal-400 dark:hover:text-teal-300"
+          >
+            ← Back to articles
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -47,21 +76,19 @@
 <script setup lang="ts">
 import Container from '~/components/Container.vue';
 import Prose from '~/components/Prose.vue';
+import { formatDate } from '~/lib/formatDate';
 
-// Get the route parameters
+// Get the route
 const route = useRoute();
-const slug = Array.isArray(route.params.slug)
-  ? route.params.slug.join('/')
-  : route.params.slug;
 
-// Fetch the article content using Nuxt Content v3 articles collection
-const { data: article } = await useAsyncData(`article-${slug}`, async () => {
-  try {
-    return await queryCollection('articles').path(`/articles/${slug}`).first();
-  } catch (error) {
-    console.error('Error fetching article:', error);
-    return null;
-  }
+// Fetch the article content using the route path directly
+const {
+  data: article,
+  pending,
+  error,
+  refresh,
+} = await useAsyncData(route.path, () => {
+  return queryCollection('content').path(route.path).first();
 });
 
 // Set page metadata
@@ -69,16 +96,33 @@ if (article.value) {
   useSeoMeta({
     title: `${article.value.title} - Spencer Sharp`,
     description: article.value.description,
-  });
-}
+    ogTitle: article.value.title,
+    ogDescription: article.value.description,
+    ogType: 'article',
+    ogUrl: `https://spotlightjs.com${route.path}`,
+    twitterTitle: article.value.title,
+    twitterDescription: article.value.description,
+    twitterCard: 'summary_large_image',
+  })
 
-// Format date function
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+  // Add article structured data
+  useSchemaOrg([
+    {
+      '@type': 'Article',
+      headline: article.value.title,
+      description: article.value.description,
+      author: {
+        '@type': 'Person',
+        name: 'Spencer Sharp',
+      },
+      publisher: {
+        '@type': 'Person',
+        name: 'Spencer Sharp',
+      },
+      datePublished: article.value.meta?.date,
+      dateModified: article.value.meta?.date,
+      url: `https://spotlightjs.com${route.path}`,
+    },
+  ])
 }
 </script>

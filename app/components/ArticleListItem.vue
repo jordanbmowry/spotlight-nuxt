@@ -1,7 +1,7 @@
 <template>
   <article class="md:grid md:grid-cols-4 md:items-baseline">
     <Card class="md:col-span-3">
-      <CardTitle :href="`/articles/${article._path?.split('/').pop()}`">
+      <CardTitle :href="`/articles/${article.path?.split('/').pop()}`">
         {{ article.title }}
       </CardTitle>
       <CardEyebrow
@@ -27,10 +27,11 @@ import CardTitle from './CardTitle.vue';
 import CardEyebrow from './CardEyebrow.vue';
 import CardDescription from './CardDescription.vue';
 import CardCta from './CardCta.vue';
+import { formatDate } from '~/lib/formatDate';
 
 interface ArticleListItemProps {
   article: {
-    _path?: string;
+    path?: string;
     title: string;
     description: string;
     date: string;
@@ -39,14 +40,4 @@ interface ArticleListItemProps {
 }
 
 defineProps<ArticleListItemProps>();
-
-// Format date function (similar to the one used in useArticles)
-function formatDate(dateString: string) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
-}
 </script>

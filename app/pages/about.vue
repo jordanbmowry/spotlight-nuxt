@@ -5,10 +5,12 @@
     >
       <div class="lg:pl-20">
         <div class="max-w-xs px-2.5 lg:max-w-none">
-          <img
+          <NuxtImg
             src="/images/portrait.jpg"
-            alt=""
+            alt="Portrait of Spencer Sharp"
             class="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
+            loading="lazy"
+            sizes="xs:320px sm:640px md:768px lg:384px xl:384px"
           />
         </div>
       </div>
@@ -88,5 +90,16 @@ useSeoMeta({
   title: 'About - Spencer Sharp',
   description:
     "I'm Spencer Sharp. I live in New York City, where I design the future.",
-});
+  ogTitle: 'About - Spencer Sharp',
+  ogDescription:
+    "I'm Spencer Sharp. I live in New York City, where I design the future.",
+  ogType: 'profile',
+  ogUrl: 'https://spotlightjs.com/about',
+  ogImage: '/images/portrait.jpg',
+  twitterTitle: 'About - Spencer Sharp',
+  twitterDescription:
+    "I'm Spencer Sharp. I live in New York City, where I design the future.",
+  twitterCard: 'summary_large_image',
+  twitterImage: '/images/portrait.jpg',
+})
 </script>

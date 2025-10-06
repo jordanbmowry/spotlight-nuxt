@@ -36,7 +36,7 @@
   <!-- Photos section -->
   <Photos />
 
-  <!-- Placeholder for articles and newsletter -->
+  <!-- Articles and newsletter section -->
   <Container class="mt-24 md:mt-28">
     <div
       class="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2"
@@ -44,8 +44,14 @@
       <div class="flex flex-col gap-16">
         <Article
           v-for="article in articles"
-          :key="article.slug"
-          :article="article"
+          :key="article.path"
+          :article="{
+            slug: article.path?.replace('/articles/', '') || '',
+            title: article.title,
+            date: article.date,
+            description: article.description,
+            author: article.author,
+          }"
         />
       </div>
       <div class="space-y-10 lg:pl-16 xl:pl-24">
@@ -68,7 +74,50 @@ import InstagramIcon from '~/components/icons/InstagramIcon.vue';
 import GitHubIcon from '~/components/icons/GitHubIcon.vue';
 import LinkedInIcon from '~/components/icons/LinkedInIcon.vue';
 
-// Get articles data
-const { getLatestArticles } = useArticles();
-const articles = getLatestArticles(4);
+// Get latest articles from Nuxt Content
+const { data: articles } = await useAsyncData('home-articles', async () => {
+  try {
+    const result = await queryCollection('articles')
+      .order('date', 'DESC')
+      .limit(4)
+      .all();
+
+    return result || [];
+  } catch (err) {
+    return [];
+  }
+});
+
+// Set page metadata
+useSeoMeta({
+  title: 'Spencer Sharp - Software designer, founder, and amateur astronaut',
+  description:
+    "I'm Spencer, a software designer and entrepreneur based in New York City. I'm the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms.",
+  ogTitle: 'Spencer Sharp - Software designer, founder, and amateur astronaut',
+  ogDescription:
+    "I'm Spencer, a software designer and entrepreneur based in New York City. I'm the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms.",
+  ogImage: '/images/avatar.jpg',
+  ogUrl: 'https://spotlightjs.com',
+  twitterTitle: 'Spencer Sharp - Software designer, founder, and amateur astronaut',
+  twitterDescription:
+    "I'm Spencer, a software designer and entrepreneur based in New York City. I'm the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms.",
+  twitterImage: '/images/avatar.jpg',
+  twitterCard: 'summary_large_image',
+})
+
+// Add structured data for person and website
+useSchemaOrg([
+  {
+    '@type': 'Person',
+    name: 'Spencer Sharp',
+    jobTitle: 'Software Designer & Founder',
+    url: 'https://spotlightjs.com',
+    sameAs: ['https://twitter.com/spencer', 'https://github.com/spencer'],
+  },
+  {
+    '@type': 'WebSite',
+    name: 'Spencer Sharp',
+    url: 'https://spotlightjs.com',
+  },
+])
 </script>
