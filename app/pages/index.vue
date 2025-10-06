@@ -50,7 +50,7 @@
       </div>
       <div class="space-y-10 lg:pl-16 xl:pl-24">
         <Newsletter />
-        <div class="text-zinc-500">Resume placeholder</div>
+        <Resume />
       </div>
     </div>
   </Container>
@@ -62,6 +62,7 @@ import Photos from '~/components/Photos.vue';
 import SocialLink from '~/components/SocialLink.vue';
 import Article from '~/components/Article.vue';
 import Newsletter from '~/components/Newsletter.vue';
+import Resume from '~/components/Resume.vue';
 import XIcon from '~/components/icons/XIcon.vue';
 import InstagramIcon from '~/components/icons/InstagramIcon.vue';
 import GitHubIcon from '~/components/icons/GitHubIcon.vue';
