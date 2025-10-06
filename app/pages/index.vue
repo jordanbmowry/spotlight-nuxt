@@ -49,7 +49,7 @@
         />
       </div>
       <div class="space-y-10 lg:pl-16 xl:pl-24">
-        <div class="text-zinc-500">Newsletter placeholder</div>
+        <Newsletter />
         <div class="text-zinc-500">Resume placeholder</div>
       </div>
     </div>
@@ -61,6 +61,7 @@ import Container from '~/components/Container.vue';
 import Photos from '~/components/Photos.vue';
 import SocialLink from '~/components/SocialLink.vue';
 import Article from '~/components/Article.vue';
+import Newsletter from '~/components/Newsletter.vue';
 import XIcon from '~/components/icons/XIcon.vue';
 import InstagramIcon from '~/components/icons/InstagramIcon.vue';
 import GitHubIcon from '~/components/icons/GitHubIcon.vue';
