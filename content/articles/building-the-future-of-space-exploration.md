@@ -1,6 +1,6 @@
 ---
 title: 'Building the future of space exploration'
-description: 'At Planetaria, we believe that space exploration should be accessible to everyone, not just government agencies and billionaire entrepreneurs. Here's how we're making that vision a reality.'
+description: 'At Planetaria, we believe that space exploration should be accessible to everyone, not just government agencies and billionaire entrepreneurs. Here is how we are making that vision a reality.'
 author: 'Spencer Sharp'
 date: '2023-03-15'
 ---

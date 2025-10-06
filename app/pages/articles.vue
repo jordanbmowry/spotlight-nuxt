@@ -7,15 +7,27 @@
       class="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40"
     >
       <div class="flex max-w-3xl flex-col space-y-16">
-        <div v-if="!articles || articles.length === 0" class="text-center">
+        <div v-if="pending" class="text-center">
+          <p class="text-zinc-600 dark:text-zinc-400">Loading articles...</p>
+        </div>
+        <div v-else-if="error" class="text-center">
           <p class="text-zinc-600 dark:text-zinc-400">
-            No articles found. (Debug: articles count =
-            {{ articles?.length || 0 }})
+            Error loading articles: {{ error }}
+          </p>
+        </div>
+        <div v-else-if="!articles || articles.length === 0" class="text-center">
+          <p class="text-zinc-600 dark:text-zinc-400">
+            No articles found. (Debug: articles = {{ articles }}, length =
+            {{ articles?.length }})
           </p>
         </div>
         <ArticleListItem
-          v-for="article in articles"
-          :key="article._path"
+          v-for="(article, index) in articles"
+          :key="
+            (article as any)?.path ||
+            (article as any)?._path ||
+            `article-${index}`
+          "
           :article="article"
         />
       </div>
@@ -34,13 +46,25 @@ useSeoMeta({
     'All of my long-form thoughts on programming, leadership, product design, and more, collected in chronological order.',
 });
 
-// Fetch all articles using our custom API
-const { data: articles } = await useAsyncData('articles', async () => {
+// Fetch articles using Nuxt Content v3 with correct collection name
+const {
+  data: articles,
+  pending,
+  error,
+} = await useAsyncData('articles', async () => {
   try {
-    return await $fetch('/api/articles');
-  } catch (error) {
-    console.error('Error fetching articles:', error);
-    return [];
+    console.log('Querying articles collection...');
+
+    // Query the articles collection directly
+    const result = await queryCollection('articles')
+      .order('date', 'DESC')
+      .all();
+    console.log('Articles query result:', result);
+
+    return result || [];
+  } catch (err) {
+    console.error('Error querying articles collection:', err);
+    throw err;
   }
 });
 </script>

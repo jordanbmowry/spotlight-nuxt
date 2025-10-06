@@ -1,6 +1,6 @@
 ---
 title: 'Rewriting the cosmOS kernel in Rust'
-description: 'When we released the first version of cosmOS last year, it was written in Go. Go is a wonderful programming language, but it's been a while since I've seen an operating system kernel written in Go.'
+description: 'When we released the first version of cosmOS last year, it was written in Go. Go is a wonderful programming language, but it has been a while since I have seen an operating system kernel written in Go.'
 author: 'Spencer Sharp'
 date: '2022-07-14'
 ---

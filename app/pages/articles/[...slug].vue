@@ -14,35 +14,30 @@
           />
         </button>
 
-        <article v-if="data">
+        <article v-if="article">
           <header class="flex flex-col">
             <h1
               class="mt-6 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100"
             >
-              {{ data.title }}
+              {{ article.title }}
             </h1>
             <time
-              :dateTime="data.date"
+              :dateTime="(article as any).date"
               class="order-first flex items-center text-base text-zinc-400 dark:text-zinc-500"
             >
               <span
                 class="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500"
               />
-              <span class="ml-3">{{ formatDate(data.date) }}</span>
+              <span class="ml-3">{{ formatDate((article as any).date) }}</span>
             </time>
           </header>
           <Prose class="mt-8">
-            <div v-html="data.body" />
+            <ContentRenderer :value="article" />
           </Prose>
         </article>
 
         <div v-else class="text-center">
-          <h1 class="text-4xl font-bold text-zinc-800 dark:text-zinc-100">
-            Article not found
-          </h1>
-          <p class="mt-4 text-zinc-600 dark:text-zinc-400">
-            The article you're looking for doesn't exist.
-          </p>
+          <p class="text-zinc-600 dark:text-zinc-400">Article not found.</p>
         </div>
       </div>
     </div>
@@ -59,10 +54,10 @@ const slug = Array.isArray(route.params.slug)
   ? route.params.slug.join('/')
   : route.params.slug;
 
-// Fetch the article content using our custom API
-const { data } = await useAsyncData(`article-${slug}`, async () => {
+// Fetch the article content using Nuxt Content v3 articles collection
+const { data: article } = await useAsyncData(`article-${slug}`, async () => {
   try {
-    return await $fetch(`/api/articles/${slug}`);
+    return await queryCollection('articles').path(`/articles/${slug}`).first();
   } catch (error) {
     console.error('Error fetching article:', error);
     return null;
@@ -70,10 +65,10 @@ const { data } = await useAsyncData(`article-${slug}`, async () => {
 });
 
 // Set page metadata
-if (data.value) {
+if (article.value) {
   useSeoMeta({
-    title: `${data.value.title} - Spencer Sharp`,
-    description: data.value.description,
+    title: `${article.value.title} - Spencer Sharp`,
+    description: article.value.description,
   });
 }
 
